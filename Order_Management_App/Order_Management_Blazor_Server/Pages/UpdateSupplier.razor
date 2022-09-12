@@ -1,0 +1,100 @@
+﻿@page "/suppliers/update/{supplierid:int}"
+@using Order_Management_Blazor_Server.Data;
+@using Order_Management_Blazor_Server.Models;
+@inject DataProviderService _dataProvider
+@inject NavigationManager NavigationManager
+
+<h3>Update Supplier: @SupplierId</h3>
+
+<EditForm Model="@supplier" OnValidSubmit="@Update">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <table>
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td><InputText class="input-field" @bind-Value="@supplier.SupplierName" /></td>
+            </tr>
+            <tr>
+                <td>Address Line 1</td>
+                <td><InputText class="input-field" @bind-Value="@supplier.AddressLine1" /></td>
+            </tr>
+            <tr>
+                <td>Address Line 2</td>
+                <td><InputText class="input-field" @bind-Value="@supplier.AddressLine2" /></td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td><InputText class="input-field" @bind-Value="@supplier.City" /></td>
+            </tr>
+            <tr>
+                <td>Postal Code</td>
+                <td><InputNumber class="input-field" @bind-Value="@supplier.PostalCode" /></td>
+            </tr>
+            <tr class="hide-state">
+                <td>State</td>
+                <td><InputSelect class="input-field" @bind-Value="@supplier.State" /></td>
+            </tr>
+            <tr>
+                <td>Dropdown</td>
+                <select class="input-select" @onchange="DoStuff">
+                    @foreach (var template in states)
+                    {
+                        <option value=@template>@template</option>
+                    }
+                </select>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+    <div style="margin-top: 20px;">
+        <button class="btn btn-success" type="submit">Update</button>
+        <a class="btn btn-primary" href="suppliers">Cancel</a>
+    </div>
+</EditForm>
+
+@*<button class="btn btn-success" @onclick="Update">Update</button>*@
+
+@code {
+    [Parameter]
+    public int SupplierId { get; set; }
+
+    private Supplier supplier;
+
+    //private List<string> states = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        supplier = await _dataProvider.GetSupplierByIdAsync(SupplierId);
+        if (supplier != null)
+        {
+            SelectedString = supplier.State;
+            //states = NeededData.GetStates();
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/suppliers");
+        }
+    }
+
+    private async void Update()
+    {
+        await _dataProvider.UpdateSupplierAsync(supplier);
+    }
+
+
+
+
+
+    List<string> states = new List<string>() { "Maui", "Hawaii", "Niihau", "Kauai", "Kahoolawe" };
+    string SelectedString = "Maui";
+
+    void DoStuff(ChangeEventArgs e)
+    {
+        SelectedString = e.Value.ToString();
+        //supplier.State = e.Value.ToString();
+    }
+}

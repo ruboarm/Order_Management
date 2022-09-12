@@ -1,0 +1,55 @@
+﻿@page "/suppliers"
+@using Order_Management_Blazor_Server.Data;
+@using Order_Management_Blazor_Server.Models;
+@inject DataProviderService _dataProvider
+
+<h3>Suppliers</h3>
+
+@if (ListSuppliers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>AddressLine1</th>
+                <th>AddressLine2</th>
+                <th>City</th>
+                <th>PostalCode</th>
+                <th>State</th>
+                <th><ion-icon name="create-outline"></ion-icon></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var supplier in ListSuppliers)
+            {
+                <tr>
+                    <td>@supplier.SupplierName</td>
+                    <td>@supplier.AddressLine1</td>
+                    <td>@supplier.AddressLine2</td>
+                    <td>@supplier.City</td>
+                    <td>@supplier.PostalCode</td>
+                    <td>@supplier.State</td>
+                    <td><a class="btn btn success" href="suppliers/update/1">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a class="btn btn success" href="suppliers/create">Create Supplier</a>
+
+
+
+
+@code {
+    private List<Supplier> ListSuppliers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListSuppliers = await _dataProvider.GetSuppliersAsync();
+    }
+}

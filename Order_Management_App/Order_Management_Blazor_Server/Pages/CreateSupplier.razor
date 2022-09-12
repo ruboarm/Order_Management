@@ -1,0 +1,77 @@
+﻿@page "/suppliers/create"
+@using Order_Management_Blazor_Server.Data;
+@using Order_Management_Blazor_Server.Models;
+@inject DataProviderService _dataProvider
+
+@*@inherits Supplier*@
+
+<h3>Create Supplier</h3>
+
+<EditForm Model="@supplier" OnValidSubmit="@Create">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <table>
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td><InputText class="input-field" @bind-Value="@supplier.SupplierName" /></td>
+            </tr>
+            <tr>
+                <td>Address Line 1</td>
+                <td><InputText class="input-field" @bind-Value="@supplier.AddressLine1" /></td>
+            </tr>
+            <tr>
+                <td>Address Line 2</td>
+                <td><InputText class="input-field" @bind-Value="@supplier.AddressLine2" /></td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td><InputText class="input-field" @bind-Value="@supplier.City" /></td>
+            </tr>
+            <tr>
+                <td>Postal Code</td>
+                <td><InputNumber class="input-field" @bind-Value="@supplier.PostalCode" /></td>
+            </tr>
+            <tr class="hide-state">
+                <td>State</td>
+                <td><InputText class="input-field" @bind-Value="@supplier.State" /></td>
+            </tr>
+            <tr>
+                <td>State</td>
+                <td>
+                    <select class="input-select" @onchange="DoStuff">
+                        @foreach (var template in states)
+                        {
+                            <option value=@template>@template</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 20px;">
+        <button class="btn btn-success" type="submit">Create</button>
+        <a class="btn btn-primary" href="suppliers">Cancel</a>
+    </div>
+</EditForm>
+
+@code {
+    private Supplier supplier = new Supplier();
+
+    private async void Create()
+    {
+        await _dataProvider.CreateSupplierAsync(supplier);
+    }
+
+
+    List<string> states = new List<string>() { "Maui", "Hawaii", "Niihau", "Kauai", "Kahoolawe" };
+    string SelectedString = "Maui";
+
+    void DoStuff(ChangeEventArgs e)
+    {
+        SelectedString = e.Value.ToString();
+        //supplier.State = e.Value.ToString();
+    }
+}
