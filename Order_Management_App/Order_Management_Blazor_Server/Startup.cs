@@ -41,7 +41,16 @@ namespace Order_Management_Blazor_Server
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
             
-            services.AddSingleton<DataProviderService>();
+            services.AddScoped<DataProviderService>();
+
+            services.AddHttpClient("OrderManager", c =>
+            {
+                c.BaseAddress = new Uri("http://localhost:44365/");
+                // Github API versioning
+                c.DefaultRequestHeaders.Add("Accept", "application/json");
+                // Github requires a user-agent
+                c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

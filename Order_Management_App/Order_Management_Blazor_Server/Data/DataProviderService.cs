@@ -19,65 +19,56 @@ namespace Order_Management_Blazor_Server.Data
         private HttpClient _client;
         private string _apiUrl;
 
-        public DataProviderService()
+        public DataProviderService(HttpClient client)
         {
-            _client = new HttpClient();
-            _client.BaseAddress = new Uri("http://localhost:64195/");
-            _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+            client.BaseAddress = new Uri("http://localhost:44365/");
+            // GitHub API versioning
+            client.DefaultRequestHeaders.Add("Accept",
+                "application/json");
+            // GitHub requires a user-agent
+            client.DefaultRequestHeaders.Add("User-Agent",
+                "HttpClientFactory");
 
-            _apiUrl = "https://localhost:44365/api/suppliers";
+            _client = client;
+
+            _apiUrl = "/api/Suppliers";
         }
 
-        
-
-        public Task<List<Supplier>> GetSuppliersAsync()
+        // Document: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-5.0
+        public async Task<List<Supplier>> GetSuppliersAsync()
         {
-            List<Supplier> suppliers = new List<Supplier>();
-
-            HttpResponseMessage response = _client.GetAsync(_apiUrl).Result;
-
-            if (response.IsSuccessStatusCode)
-            {
-                suppliers = JsonConvert.DeserializeObject<List<Supplier>>(response.Content.ReadAsStringAsync().Result);
-            }
-
-            return Task.FromResult(suppliers);
+            return await _client.GetFromJsonAsync<List<Supplier>>("/api/Suppliers");
         }
 
-        public Task<Supplier> GetSupplierByIdAsync(int id)
+        public async Task<Supplier> GetSupplierByIdAsync(int id)
         {
-            Supplier supplier = null;
-            HttpResponseMessage response = _client.GetAsync($"{_apiUrl}/{id}").Result;
+            return await _client.GetFromJsonAsync<Supplier>($"/api/Suppliers/{id}");
 
-            if (response.IsSuccessStatusCode)
-            {
-                supplier = JsonConvert.DeserializeObject<Supplier>(response.Content.ReadAsStringAsync().Result);
-            }
-            return Task.FromResult(supplier);
-        }
+            //Supplier supplier = null;
+            //HttpResponseMessage response = _client.GetAsync($"{_apiUrl}/{id}").Result;
 
-        public Task<Uri> CreateSupplierAsync(Supplier supplier)
-        {
-            HttpResponseMessage response = _client.PostAsJsonAsync($"{_apiUrl}/create", supplier).Result;
-
-            if (response.IsSuccessStatusCode)
-            {
-                supplier = JsonConvert.DeserializeObject<Supplier>(response.Content.ReadAsStringAsync().Result);
-            }
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    supplier = JsonConvert.DeserializeObject<Supplier>(response.Content.ReadAsStringAsync().Result);
+            //}
             //return Task.FromResult(supplier);
+        }
 
-            //HttpResponseMessage response = await _client.PostAsJsonAsync("/products", supplier);
-            //response.EnsureSuccessStatusCode();
+        public async Task<Supplier> CreateSupplierAsync(Supplier supplier)
+        {
+            HttpResponseMessage response = await _client.PostAsJsonAsync<Supplier>("/api/Suppliers/", supplier);
+            response.EnsureSuccessStatusCode();
 
-            // return URI of the created resource.
-            return Task.FromResult(response.Headers.Location);
+            if (response.IsSuccessStatusCode)
+            {
+                supplier = JsonConvert.DeserializeObject<Supplier>(response.Content.ReadAsStringAsync().Result);
+            }
+            return supplier;
         }
 
         public async Task<Supplier> UpdateSupplierAsync(Supplier supplier)
         {
-            HttpResponseMessage response = await _client.PutAsJsonAsync($"/update/{supplier.Id}", supplier);
+            HttpResponseMessage response = await _client.PutAsJsonAsync($"/api/Suppliers/{supplier.Id}", supplier);
             response.EnsureSuccessStatusCode();
 
             // Deserialize the updated product from the response body.
@@ -93,7 +84,7 @@ namespace Order_Management_Blazor_Server.Data
 
         public async Task<HttpStatusCode> DeleteSupplierAsync(int id)
         {
-            HttpResponseMessage response = await _client.DeleteAsync($"api/suppliers/{id}");
+            HttpResponseMessage response = await _client.DeleteAsync($"/api/Suppliers/{id}");
             return response.StatusCode;
         }
 

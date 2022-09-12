@@ -31,7 +31,8 @@ namespace API
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddSingleton<DatabaseProviderService>();
+
+            services.AddScoped<DatabaseProviderService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
