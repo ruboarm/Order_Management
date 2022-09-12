@@ -1,5 +1,0 @@
-﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication" Path="C:\Users\Tatev\.nuget\packages\microsoft.aspnetcore.components.webassembly.authentication\5.0.17\build\..\staticwebassets\" />
-  <ContentRoot BasePath="/" Path="C:\Users\Tatev\source\repos\Order_Management_App\Order_Management_App\bin\Debug\net5.0\wwwroot\" />
-  <ContentRoot BasePath="/" Path="C:\Users\Tatev\source\repos\Order_Management_App\Order_Management_App\obj\Debug\net5.0\scopedcss\bundle\" />
-</StaticWebAssets>
