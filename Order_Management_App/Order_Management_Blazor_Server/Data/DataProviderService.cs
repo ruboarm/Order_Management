@@ -20,14 +20,14 @@ namespace Order_Management_Blazor_Server.Data
         private string _apiUrl;
 
         public DataProviderService(HttpClient client)
+        //public DataProviderService()
         {
-            client.BaseAddress = new Uri("http://localhost:44365/");
-            // GitHub API versioning
-            client.DefaultRequestHeaders.Add("Accept",
-                "application/json");
-            // GitHub requires a user-agent
-            client.DefaultRequestHeaders.Add("User-Agent",
-                "HttpClientFactory");
+            //_client = new HttpClient();
+            //_client.BaseAddress = new Uri("https://localhost:44365/");
+            //_client.DefaultRequestHeaders.Add("Accept",
+                //"application/json");
+            //_client.DefaultRequestHeaders.Add("User-Agent",
+            //    "HttpClientFactory");
 
             _client = client;
 
@@ -37,33 +37,49 @@ namespace Order_Management_Blazor_Server.Data
         // Document: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-5.0
         public async Task<List<Supplier>> GetSuppliersAsync()
         {
-            return await _client.GetFromJsonAsync<List<Supplier>>("/api/Suppliers");
+            List<Supplier> list = null;
+            try
+            {
+                //var response = await _client.GetAsync(_apiUrl);
+                //string responseString = await response.Content.ReadAsStringAsync();
+
+                list = await _client.GetFromJsonAsync<List<Supplier>>("/api/Suppliers");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return list;
         }
 
         public async Task<Supplier> GetSupplierByIdAsync(int id)
         {
-            return await _client.GetFromJsonAsync<Supplier>($"/api/Suppliers/{id}");
+            Supplier supplier = null;
+            try
+            {
+                //var response = await _client.GetAsync(_apiUrl);
+                //string responseString = await response.Content.ReadAsStringAsync();
 
-            //Supplier supplier = null;
-            //HttpResponseMessage response = _client.GetAsync($"{_apiUrl}/{id}").Result;
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    supplier = JsonConvert.DeserializeObject<Supplier>(response.Content.ReadAsStringAsync().Result);
-            //}
-            //return Task.FromResult(supplier);
+                supplier = await _client.GetFromJsonAsync<Supplier>($"/api/Suppliers/{id}");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return supplier;
         }
 
-        public async Task<Supplier> CreateSupplierAsync(Supplier supplier)
+        public async Task<List<Supplier>> CreateSupplierAsync(Supplier supplier)
         {
             HttpResponseMessage response = await _client.PostAsJsonAsync<Supplier>("/api/Suppliers/", supplier);
             response.EnsureSuccessStatusCode();
 
+            List<Supplier> list = null;
             if (response.IsSuccessStatusCode)
             {
-                supplier = JsonConvert.DeserializeObject<Supplier>(response.Content.ReadAsStringAsync().Result);
+                list = JsonConvert.DeserializeObject<List<Supplier>>(response.Content.ReadAsStringAsync().Result);
             }
-            return supplier;
+            return list;
         }
 
         public async Task<Supplier> UpdateSupplierAsync(Supplier supplier)

@@ -83,14 +83,14 @@ using Order_Management_Blazor_Server.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Tatev\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
+#line 3 "C:\Users\Tatev\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
 using Order_Management_Blazor_Server.Data;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Tatev\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
+#line 4 "C:\Users\Tatev\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
 using Order_Management_Blazor_Server.Models;
 
 #line default
@@ -105,7 +105,7 @@ using Order_Management_Blazor_Server.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 61 "C:\Users\Tatev\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
+#line 62 "C:\Users\Tatev\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
        
     [Parameter]
     public int SupplierId { get; set; }

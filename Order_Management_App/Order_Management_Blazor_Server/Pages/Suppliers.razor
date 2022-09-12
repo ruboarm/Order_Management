@@ -21,20 +21,22 @@ else
                 <th>PostalCode</th>
                 <th>State</th>
                 <th><ion-icon name="create-outline"></ion-icon></th>
+                <th><ion-icon name="create-outline"></ion-icon></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var supplier in ListSuppliers)
             {
-                <tr>
-                    <td>@supplier.SupplierName</td>
-                    <td>@supplier.AddressLine1</td>
-                    <td>@supplier.AddressLine2</td>
-                    <td>@supplier.City</td>
-                    <td>@supplier.PostalCode</td>
-                    <td>@supplier.State</td>
-                    <td><a class="btn btn success" href="suppliers/update/1">Edit</a></td>
-                </tr>
+            <tr>
+                <td>@supplier.SupplierName</td>
+                <td>@supplier.AddressLine1</td>
+                <td>@supplier.AddressLine2</td>
+                <td>@supplier.City</td>
+                <td>@supplier.PostalCode</td>
+                <td>@supplier.State</td>
+                <td><a class="btn btn success" href="suppliers/update/@supplier.Id">Edit</a></td>
+                <td><a class="btn btn success" href="suppliers/delete/@supplier.Id">Delete</a></td>
+            </tr>
             }
         </tbody>
     </table>

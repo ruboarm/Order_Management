@@ -30,9 +30,10 @@ namespace API
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection")),
+                    ServiceLifetime.Scoped); // In order not to have disposed DB COntext
 
-            services.AddScoped<DatabaseProviderService>();
+            //services.AddScoped<DatabaseProviderService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -17,21 +17,30 @@ namespace API.Controllers
     public class SuppliersController : ControllerBase
     {
         public readonly ApplicationDbContext _context;
-        public readonly DatabaseProviderService _getdate;
+        //public readonly DatabaseProviderService _getdate;
 
-        public SuppliersController(ApplicationDbContext context, DatabaseProviderService getdate)
+        public SuppliersController(ApplicationDbContext context)
+        //public SuppliersController(ApplicationDbContext context, DatabaseProviderService getdate)
         //public SuppliersController(DatabaseProviderService getdate)
         {
             _context = context;
-            _getdate = getdate;
+            //_getdate = getdate;
         }
 
         // GET: api/<SuppliersController>
         [HttpGet]
         public async Task<List<Supplier>> Get()
         {
-            var suppliers = await _context.Suppliers.ToListAsync();
-            //var suppliers = await _getdate.GetSuppliersAsync();
+            List<Supplier> suppliers = null;
+            try
+            {
+                suppliers = await _context.Suppliers.ToListAsync();
+                //var suppliers = await _getdate.GetSuppliersAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
             return suppliers;
         }
@@ -48,14 +57,19 @@ namespace API.Controllers
 
         // POST api/<SuppliersController>
         [HttpPost]
-        public async void Post([FromBody] Supplier supplier)
+        public async Task<List<Supplier>> Post([FromBody] Supplier supplier)
         {
+            List<Supplier> list = null;
             if (ModelState.IsValid)
             {
                 _context.Suppliers.Add(supplier);
                 await _context.SaveChangesAsync();
                 //_getdate.CreateSupplierAsync(supplier);
+
+                list = await _context.Suppliers.ToListAsync();
             }
+
+            return list;
         }
 
         // PUT api/<SuppliersController>/5

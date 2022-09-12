@@ -105,7 +105,7 @@ using Order_Management_Blazor_Server.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 48 "C:\Users\Tatev\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\Suppliers.razor"
+#line 50 "C:\Users\Tatev\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\Suppliers.razor"
        
     private List<Supplier> ListSuppliers;
 
