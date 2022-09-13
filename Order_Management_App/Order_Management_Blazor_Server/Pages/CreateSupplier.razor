@@ -28,7 +28,6 @@
                 <td>Postal Code</td>
                 <td><InputNumber class="input-field" @bind-Value="@supplier.PostalCode" /></td>
             </tr>
-            @*<tr class="hide-state">*@
             <tr>
                 <td>State</td>
                 <td>
@@ -40,17 +39,6 @@
                     </InputSelect>
                 </td>
             </tr>
-            @*<tr>
-            <td>State</td>
-            <td>
-            <select class="input-select" @onchange="UpdateState">
-            @foreach (var state in states)
-            {
-            <option value=@state>@state</option>
-            }
-            </select>
-            </td>
-            </tr>*@
         </tbody>
     </table>
 
@@ -76,7 +64,7 @@
         _navigationManager.NavigateTo("/suppliers", true);
     }
 
-    string SelectedString = "Available";
+    string SelectedString = Lists.GetStates()[0];
 
     void UpdateState(ChangeEventArgs e)
     {

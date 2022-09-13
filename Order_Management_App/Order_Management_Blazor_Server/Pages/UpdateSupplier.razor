@@ -28,18 +28,14 @@
                 <td>Postal Code</td>
                 <td><InputNumber class="input-field" @bind-Value="@supplier.PostalCode" /></td>
             </tr>
-            <tr class="hide-state">
-                <td>State</td>
-                <td><InputSelect class="input-field" @bind-Value="@supplier.State" /></td>
-            </tr>
             <tr>
-                <td>Dropdown</td>
-                <select class="input-select" @onchange="UpdateState">
+                <td>State</td>
+                <InputSelect class="input-field" @bind-Value="@supplier.State" @onchange="UpdateState">
                     @foreach (var state in states)
                     {
-                        <option value=@state>@state</option>
+                        <option value="@state">@state</option>
                     }
-                </select>
+                </InputSelect>
             </tr>
         </tbody>
     </table>
@@ -52,8 +48,6 @@
         <a class="btn btn-primary" href="suppliers">Cancel</a>
     </div>
 </EditForm>
-
-@*<button class="btn btn-success" @onclick="Update">Update</button>*@
 
 @code {
     [Parameter]
@@ -68,8 +62,6 @@
         supplier = await _dataProvider.GetSupplierByIdAsync(Id);
         if (supplier != null)
         {
-            //editContext = new(supplier);
-
             SelectedString = supplier.State;
             states = _dataProvider.GetStates();
         }
@@ -82,6 +74,7 @@
     private async void Update()
     {
         await _dataProvider.UpdateSupplierAsync(supplier);
+        _navigationManager.NavigateTo("/suppliers", true);
     }
 
     private async void DeleteSupplier(int id)
@@ -95,7 +88,7 @@
     }
 
 
-    string SelectedString = "Available";
+    string SelectedString = Lists.GetStates()[0];
 
     void UpdateState(ChangeEventArgs e)
     {
