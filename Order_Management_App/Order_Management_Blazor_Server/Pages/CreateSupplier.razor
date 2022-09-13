@@ -63,7 +63,12 @@
 @code {
     private Supplier supplier = new Supplier();
 
-    private List<string> states = NeededData.GetStates();
+    private List<string> states = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        states = _dataProvider.GetStates();
+    }
 
     private async void Create()
     {

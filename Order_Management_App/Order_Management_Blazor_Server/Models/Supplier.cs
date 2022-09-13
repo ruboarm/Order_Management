@@ -1,9 +1,10 @@
-﻿using Order_Management_Blazor_Server.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Order_Management_Blazor_Server.Data;
 
 namespace Order_Management_Blazor_Server.Models
 {
@@ -28,6 +29,6 @@ namespace Order_Management_Blazor_Server.Models
         public int PostalCode { get; set; }
 
         [Required]
-        public string State { get; set; } = NeededData.GetStates()[0];
+        public string State { get; set; } = Lists.GetStates()[0];
     }
 }

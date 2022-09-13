@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Data;
 
 namespace API.Models
 {
@@ -27,6 +28,6 @@ namespace API.Models
         public int PostalCode { get; set; }
 
         [Required]
-        public string State { get; set; }
+        public string State { get; set; } = Lists.GetStates()[0];
     }
 }
