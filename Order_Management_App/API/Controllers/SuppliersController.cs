@@ -66,7 +66,7 @@ namespace API.Controllers
                 await _context.SaveChangesAsync();
                 //_getdate.CreateSupplierAsync(supplier);
 
-                updatedSupplier = await _context.Suppliers.FirstOrDefaultAsync(s=>s.Id == supplier.Id);
+                updatedSupplier = await _context.Suppliers.FirstOrDefaultAsync(s => s.Id == supplier.Id);
             }
 
             return updatedSupplier;
@@ -75,37 +75,51 @@ namespace API.Controllers
         // PUT api/<SuppliersController>/5
         [HttpPut("{id}")]
         //public async void Put(int id, [FromBody] Supplier supplier)
-        public async void Put(int id, [FromBody] Supplier supplier)
+        public async Task<bool> Put(int id, [FromBody] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
-                //var existingSupplier = await _context.Suppliers.FirstOrDefaultAsync(s => s.ID == id);
+                var existingSupplier = await _context.Suppliers.FirstOrDefaultAsync(s => s.Id == id);
 
-                //existingSupplier.SupplierName = supplier.SupplierName;
-                //existingSupplier.AddressLine1 = supplier.AddressLine1;
-                //existingSupplier.AddressLine2 = supplier.AddressLine2;
-                //existingSupplier.City = supplier.City;
-                //existingSupplier.PostalCode = supplier.PostalCode;
-                //existingSupplier.State = supplier.State;
+                existingSupplier.SupplierName = supplier.SupplierName;
+                existingSupplier.AddressLine1 = supplier.AddressLine1;
+                existingSupplier.AddressLine2 = supplier.AddressLine2;
+                existingSupplier.City = supplier.City;
+                existingSupplier.PostalCode = supplier.PostalCode;
+                existingSupplier.State = supplier.State;
 
-                _context.Suppliers.Update(supplier);
+                _context.Suppliers.Update(existingSupplier);
                 await _context.SaveChangesAsync();
 
                 //_getdate.UpdateSupplierAsync(supplier);
+
+                return true;
             }
 
+            return false;
         }
 
         // DELETE api/<SuppliersController>/5
         [HttpDelete("{id}")]
-        public async void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var supplier = await _context.Suppliers.FirstOrDefaultAsync(s => s.Id == id);
+            try
+            {
+                var supplier = await _context.Suppliers.FirstOrDefaultAsync(s => s.Id == id);
 
-            _context.Suppliers.Remove(supplier);
-            await _context.SaveChangesAsync();
+                _context.Suppliers.Remove(supplier);
+                await _context.SaveChangesAsync();
 
-            //_getdate.DeleteSupplierByIdAsync(id);
+                //_getdate.DeleteSupplierByIdAsync(id);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return false;
         }
     }
 }

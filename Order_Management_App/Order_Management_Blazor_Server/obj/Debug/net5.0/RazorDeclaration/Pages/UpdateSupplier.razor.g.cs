@@ -105,14 +105,12 @@ using Order_Management_Blazor_Server.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 62 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
+#line 63 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
        
     [Parameter]
     public int Id { get; set; }
 
     private Supplier supplier = new Supplier();
-    #nullable enable
-    //private EditContext? editContext;
 
     private List<string> states = new List<string>();
 
@@ -135,6 +133,12 @@ using Order_Management_Blazor_Server.Models;
     private async void Update()
     {
         await _dataProvider.UpdateSupplierAsync(supplier);
+    }
+
+    private async void DeleteSupplier(int id)
+    {
+        var status = await _dataProvider.DeleteSupplierAsync(id);
+        _navigationManager.NavigateTo("/suppliers");
     }
 
 

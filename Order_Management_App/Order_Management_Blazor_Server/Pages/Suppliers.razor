@@ -2,6 +2,7 @@
 @using Order_Management_Blazor_Server.Data;
 @using Order_Management_Blazor_Server.Models;
 @inject DataProviderService _dataProvider
+@inject NavigationManager _navigationManager
 
 <h3>Suppliers</h3>
 
@@ -36,8 +37,8 @@ else
                     <td>@supplier.City</td>
                     <td>@supplier.PostalCode</td>
                     <td>@supplier.State</td>
-                    <td><a class="btn btn success" href="suppliers/update/@supplier.Id">Edit</a></td>
-                    <td><a class="btn btn success" href="suppliers/delete/@supplier.Id">Delete</a></td>
+                    <td><a class="btn btn-success" href="suppliers/update/@supplier.Id">Edit</a></td>
+                    <td><a class="btn btn-danger" @onclick="@(e => DeleteSupplier(supplier.Id))">Delete</a></td>
                 </tr>
             }
         </tbody>
@@ -55,5 +56,11 @@ else
     protected override async Task OnInitializedAsync()
     {
         ListSuppliers = await _dataProvider.GetSuppliersAsync();
+    }
+
+    private async void DeleteSupplier(int id)
+    {
+        var status = await _dataProvider.DeleteSupplierAsync(id);
+        _navigationManager.NavigateTo("/suppliers");
     }
 }

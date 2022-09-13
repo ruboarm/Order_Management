@@ -105,7 +105,7 @@ using Order_Management_Blazor_Server.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 52 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\Suppliers.razor"
+#line 53 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\Suppliers.razor"
        
     private List<Supplier> ListSuppliers;
 
@@ -114,9 +114,16 @@ using Order_Management_Blazor_Server.Models;
         ListSuppliers = await _dataProvider.GetSuppliersAsync();
     }
 
+    private async void DeleteSupplier(int id)
+    {
+        var status = await _dataProvider.DeleteSupplierAsync(id);
+        _navigationManager.NavigateTo("/suppliers");
+    }
+
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager _navigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private DataProviderService _dataProvider { get; set; }
     }
 }
