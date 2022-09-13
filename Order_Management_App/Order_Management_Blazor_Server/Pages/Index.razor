@@ -2,6 +2,19 @@
 
 <h1>Hello!</h1>
 
-Welcome to Order Management App.
+<h3>Welcome to Order Management App.</h3>
 
-<a href="suppliers">View Suppliers</a>
+
+<p>
+    There are total @Count <a href="suppliers">Suppliers</a>
+</p>
+
+@code {
+    private int Count { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var suppliers = await _dataProvider.GetSuppliersAsync();
+        Count = suppliers.Count;
+    }
+}

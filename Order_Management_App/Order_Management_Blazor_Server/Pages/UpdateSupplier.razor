@@ -1,10 +1,5 @@
 ﻿@page "/suppliers/update/{Id:int}"
 
-@using Order_Management_Blazor_Server.Data;
-@using Order_Management_Blazor_Server.Models;
-@inject DataProviderService _dataProvider
-@inject NavigationManager _navigationManager
-
 <h3>Update Supplier: @Id</h3>
 
 <EditForm Model="@supplier" OnValidSubmit="@Update">
@@ -80,7 +75,7 @@
         }
         else
         {
-            _navigationManager.NavigateTo("/suppliers");
+            _navigationManager.NavigateTo("/suppliers", true);
         }
     }
 
@@ -91,8 +86,12 @@
 
     private async void DeleteSupplier(int id)
     {
-        var status = await _dataProvider.DeleteSupplierAsync(id);
-        _navigationManager.NavigateTo("/suppliers");
+        bool confirmed = await _jsRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+        if (confirmed)
+        {
+            var status = await _dataProvider.DeleteSupplierAsync(id);
+            _navigationManager.NavigateTo("/suppliers", true);
+        }
     }
 
 

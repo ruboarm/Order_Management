@@ -1,10 +1,4 @@
 ﻿@page "/suppliers/create"
-@using Order_Management_Blazor_Server.Data;
-@using Order_Management_Blazor_Server.Models;
-@inject DataProviderService _dataProvider
-@inject NavigationManager _navigationManager
-
-@*@inherits Supplier*@
 
 <h3>Create Supplier</h3>
 
@@ -74,7 +68,7 @@
     private async void Create()
     {
         await _dataProvider.CreateSupplierAsync(supplier);
-        _navigationManager.NavigateTo("/suppliers");
+        _navigationManager.NavigateTo("/suppliers", true);
     }
 
     string SelectedString = "Available";
