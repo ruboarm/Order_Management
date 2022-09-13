@@ -83,21 +83,21 @@ using Order_Management_Blazor_Server.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\Suppliers.razor"
+#line 3 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\EditSupplier.razor"
 using Order_Management_Blazor_Server.Data;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\Suppliers.razor"
+#line 4 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\EditSupplier.razor"
 using Order_Management_Blazor_Server.Models;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/suppliers")]
-    public partial class Suppliers : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/suppliers/update/{Id:int}")]
+    public partial class EditSupplier : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -105,18 +105,47 @@ using Order_Management_Blazor_Server.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 52 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\Suppliers.razor"
+#line 62 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\EditSupplier.razor"
        
-    private List<Supplier> ListSuppliers;
+    [Parameter]
+    public int Id { get; set; }
+
+    private Supplier supplier;
+
+    private List<string> states = null;
 
     protected override async Task OnInitializedAsync()
     {
-        ListSuppliers = await _dataProvider.GetSuppliersAsync();
+        supplier = await _dataProvider.GetSupplierByIdAsync(Id);
+        if (supplier != null)
+        {
+            SelectedString = supplier.State;
+            states = NeededData.GetStates();
+        }
+        else
+        {
+            _navigationManager.NavigateTo("/suppliers");
+        }
+    }
+
+    private async void Update()
+    {
+        await _dataProvider.UpdateSupplierAsync(supplier);
+    }
+
+
+    string SelectedString = "Available";
+
+    void UpdateState(ChangeEventArgs e)
+    {
+        SelectedString = e.Value.ToString();
+        supplier.State = e.Value.ToString();
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager _navigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private DataProviderService _dataProvider { get; set; }
     }
 }

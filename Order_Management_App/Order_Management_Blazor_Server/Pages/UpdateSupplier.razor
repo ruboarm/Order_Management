@@ -1,10 +1,11 @@
-﻿@page "/suppliers/update/{supplierid:int}"
+﻿@page "/suppliers/update/{Id:int}"
+
 @using Order_Management_Blazor_Server.Data;
 @using Order_Management_Blazor_Server.Models;
 @inject DataProviderService _dataProvider
-@inject NavigationManager NavigationManager
+@inject NavigationManager _navigationManager
 
-<h3>Update Supplier: @SupplierId</h3>
+<h3>Update Supplier: @Id</h3>
 
 <EditForm Model="@supplier" OnValidSubmit="@Update">
     <DataAnnotationsValidator />
@@ -38,10 +39,10 @@
             </tr>
             <tr>
                 <td>Dropdown</td>
-                <select class="input-select" @onchange="DoStuff">
-                    @foreach (var template in states)
+                <select class="input-select" @onchange="UpdateState">
+                    @foreach (var state in states)
                     {
-                        <option value=@template>@template</option>
+                        <option value=@state>@state</option>
                     }
                 </select>
             </tr>
@@ -60,23 +61,27 @@
 
 @code {
     [Parameter]
-    public int SupplierId { get; set; }
+    public int Id { get; set; }
 
-    private Supplier supplier;
+    private Supplier supplier = new Supplier();
+    #nullable enable
+    //private EditContext? editContext;
 
-    //private List<string> states = null;
+    private List<string> states = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
-        supplier = await _dataProvider.GetSupplierByIdAsync(SupplierId);
+        supplier = await _dataProvider.GetSupplierByIdAsync(Id);
         if (supplier != null)
         {
+            //editContext = new(supplier);
+
             SelectedString = supplier.State;
-            //states = NeededData.GetStates();
+            states = NeededData.GetStates();
         }
         else
         {
-            NavigationManager.NavigateTo("/suppliers");
+            _navigationManager.NavigateTo("/suppliers");
         }
     }
 
@@ -86,15 +91,11 @@
     }
 
 
+    string SelectedString = "Available";
 
-
-
-    List<string> states = new List<string>() { "Maui", "Hawaii", "Niihau", "Kauai", "Kahoolawe" };
-    string SelectedString = "Maui";
-
-    void DoStuff(ChangeEventArgs e)
+    void UpdateState(ChangeEventArgs e)
     {
         SelectedString = e.Value.ToString();
-        //supplier.State = e.Value.ToString();
+        supplier.State = e.Value.ToString();
     }
 }

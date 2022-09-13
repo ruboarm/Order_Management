@@ -14,6 +14,7 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>AddressLine1</th>
                 <th>AddressLine2</th>
@@ -21,19 +22,22 @@ else
                 <th>PostalCode</th>
                 <th>State</th>
                 <th><ion-icon name="create-outline"></ion-icon></th>
+                <th><ion-icon name="create-outline"></ion-icon></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var supplier in ListSuppliers)
             {
                 <tr>
+                    <td>@supplier.Id</td>
                     <td>@supplier.SupplierName</td>
                     <td>@supplier.AddressLine1</td>
                     <td>@supplier.AddressLine2</td>
                     <td>@supplier.City</td>
                     <td>@supplier.PostalCode</td>
                     <td>@supplier.State</td>
-                    <td><a class="btn btn success" href="suppliers/update/1">Edit</a></td>
+                    <td><a class="btn btn success" href="suppliers/update/@supplier.Id">Edit</a></td>
+                    <td><a class="btn btn success" href="suppliers/delete/@supplier.Id">Delete</a></td>
                 </tr>
             }
         </tbody>

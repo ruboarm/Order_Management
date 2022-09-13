@@ -2,6 +2,7 @@
 @using Order_Management_Blazor_Server.Data;
 @using Order_Management_Blazor_Server.Models;
 @inject DataProviderService _dataProvider
+@inject NavigationManager _navigationManager
 
 @*@inherits Supplier*@
 
@@ -33,21 +34,29 @@
                 <td>Postal Code</td>
                 <td><InputNumber class="input-field" @bind-Value="@supplier.PostalCode" /></td>
             </tr>
-            <tr class="hide-state">
-                <td>State</td>
-                <td><InputText class="input-field" @bind-Value="@supplier.State" /></td>
-            </tr>
+            @*<tr class="hide-state">*@
             <tr>
                 <td>State</td>
                 <td>
-                    <select class="input-select" @onchange="DoStuff">
-                        @foreach (var template in states)
+                    <InputSelect class="input-field" @bind-Value="@supplier.State" @onchange="UpdateState">
+                        @foreach (var state in states)
                         {
-                            <option value=@template>@template</option>
+                            <option value="@state">@state</option>
                         }
-                    </select>
+                    </InputSelect>
                 </td>
             </tr>
+            @*<tr>
+            <td>State</td>
+            <td>
+            <select class="input-select" @onchange="UpdateState">
+            @foreach (var state in states)
+            {
+            <option value=@state>@state</option>
+            }
+            </select>
+            </td>
+            </tr>*@
         </tbody>
     </table>
 
@@ -60,18 +69,19 @@
 @code {
     private Supplier supplier = new Supplier();
 
+    private List<string> states = NeededData.GetStates();
+
     private async void Create()
     {
         await _dataProvider.CreateSupplierAsync(supplier);
+        _navigationManager.NavigateTo("/suppliers");
     }
 
+    string SelectedString = "Available";
 
-    List<string> states = new List<string>() { "Maui", "Hawaii", "Niihau", "Kauai", "Kahoolawe" };
-    string SelectedString = "Maui";
-
-    void DoStuff(ChangeEventArgs e)
+    void UpdateState(ChangeEventArgs e)
     {
         SelectedString = e.Value.ToString();
-        //supplier.State = e.Value.ToString();
+        supplier.State = e.Value.ToString();
     }
 }

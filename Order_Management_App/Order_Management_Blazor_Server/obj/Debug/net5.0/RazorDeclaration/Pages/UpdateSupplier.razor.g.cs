@@ -83,20 +83,20 @@ using Order_Management_Blazor_Server.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
+#line 3 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
 using Order_Management_Blazor_Server.Data;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
+#line 4 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
 using Order_Management_Blazor_Server.Models;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/suppliers/update/{supplierid:int}")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/suppliers/update/{Id:int}")]
     public partial class UpdateSupplier : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -105,26 +105,30 @@ using Order_Management_Blazor_Server.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 61 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
+#line 62 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\UpdateSupplier.razor"
        
     [Parameter]
-    public int SupplierId { get; set; }
+    public int Id { get; set; }
 
-    private Supplier supplier;
+    private Supplier supplier = new Supplier();
+    #nullable enable
+    //private EditContext? editContext;
 
-    //private List<string> states = null;
+    private List<string> states = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
-        supplier = await _dataProvider.GetSupplierByIdAsync(SupplierId);
+        supplier = await _dataProvider.GetSupplierByIdAsync(Id);
         if (supplier != null)
         {
+            //editContext = new(supplier);
+
             SelectedString = supplier.State;
-            //states = NeededData.GetStates();
+            states = NeededData.GetStates();
         }
         else
         {
-            NavigationManager.NavigateTo("/suppliers");
+            _navigationManager.NavigateTo("/suppliers");
         }
     }
 
@@ -134,22 +138,18 @@ using Order_Management_Blazor_Server.Models;
     }
 
 
+    string SelectedString = "Available";
 
-
-
-    List<string> states = new List<string>() { "Maui", "Hawaii", "Niihau", "Kauai", "Kahoolawe" };
-    string SelectedString = "Maui";
-
-    void DoStuff(ChangeEventArgs e)
+    void UpdateState(ChangeEventArgs e)
     {
         SelectedString = e.Value.ToString();
-        //supplier.State = e.Value.ToString();
+        supplier.State = e.Value.ToString();
     }
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager _navigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private DataProviderService _dataProvider { get; set; }
     }
 }

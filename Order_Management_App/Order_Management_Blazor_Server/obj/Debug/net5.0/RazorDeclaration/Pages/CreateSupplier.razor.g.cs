@@ -105,28 +105,30 @@ using Order_Management_Blazor_Server.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 60 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\CreateSupplier.razor"
+#line 69 "C:\Users\admin\source\repos\Order_Management_App\Order_Management_Blazor_Server\Pages\CreateSupplier.razor"
        
     private Supplier supplier = new Supplier();
+
+    private List<string> states = NeededData.GetStates();
 
     private async void Create()
     {
         await _dataProvider.CreateSupplierAsync(supplier);
+        _navigationManager.NavigateTo("/suppliers");
     }
 
+    string SelectedString = "Available";
 
-    List<string> states = new List<string>() { "Maui", "Hawaii", "Niihau", "Kauai", "Kahoolawe" };
-    string SelectedString = "Maui";
-
-    void DoStuff(ChangeEventArgs e)
+    void UpdateState(ChangeEventArgs e)
     {
         SelectedString = e.Value.ToString();
-        //supplier.State = e.Value.ToString();
+        supplier.State = e.Value.ToString();
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager _navigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private DataProviderService _dataProvider { get; set; }
     }
 }
