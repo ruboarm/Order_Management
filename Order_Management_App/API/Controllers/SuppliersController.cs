@@ -62,9 +62,16 @@ namespace API.Controllers
             Supplier updatedSupplier = null;
             if (ModelState.IsValid)
             {
-                _context.Suppliers.Add(supplier);
-                await _context.SaveChangesAsync();
-                //_getdate.CreateSupplierAsync(supplier);
+                try
+                {
+                    _context.Suppliers.Add(supplier);
+                    await _context.SaveChangesAsync();
+                    //_getdate.CreateSupplierAsync(supplier);
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
 
                 updatedSupplier = await _context.Suppliers.FirstOrDefaultAsync(s => s.Id == supplier.Id);
             }
@@ -75,28 +82,23 @@ namespace API.Controllers
         // PUT api/<SuppliersController>/5
         [HttpPut("{id}")]
         //public async void Put(int id, [FromBody] Supplier supplier)
-        public async Task<bool> Put(int id, [FromBody] Supplier supplier)
+        public async Task<Supplier> Put(int id, [FromBody] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
-                var existingSupplier = await _context.Suppliers.FirstOrDefaultAsync(s => s.Id == id);
-
-                existingSupplier.SupplierName = supplier.SupplierName;
-                existingSupplier.AddressLine1 = supplier.AddressLine1;
-                existingSupplier.AddressLine2 = supplier.AddressLine2;
-                existingSupplier.City = supplier.City;
-                existingSupplier.PostalCode = supplier.PostalCode;
-                existingSupplier.State = supplier.State;
-
-                _context.Suppliers.Update(existingSupplier);
-                await _context.SaveChangesAsync();
-
-                //_getdate.UpdateSupplierAsync(supplier);
-
-                return true;
+                try
+                {
+                    _context.Suppliers.Update(supplier);
+                    await _context.SaveChangesAsync();
+                    //_getdate.UpdateSupplierAsync(supplier);
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
             }
 
-            return false;
+            return supplier;
         }
 
         // DELETE api/<SuppliersController>/5
