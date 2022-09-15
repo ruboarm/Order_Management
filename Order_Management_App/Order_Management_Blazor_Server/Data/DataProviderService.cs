@@ -22,11 +22,10 @@ namespace Order_Management_Blazor_Server.Data
         public DataProviderService(HttpClient client)
         //public DataProviderService()
         {
-            // HTTP Client use without injection
             //_client = new HttpClient();
             //_client.BaseAddress = new Uri("https://localhost:44365/");
             //_client.DefaultRequestHeaders.Add("Accept",
-            //"application/json");
+                //"application/json");
             //_client.DefaultRequestHeaders.Add("User-Agent",
             //    "HttpClientFactory");
 
@@ -41,11 +40,10 @@ namespace Order_Management_Blazor_Server.Data
             List<Supplier> list = null;
             try
             {
-                // HTTP Client use without injection
                 //var response = await _client.GetAsync(_apiUrl);
                 //string responseString = await response.Content.ReadAsStringAsync();
 
-                list = await _client.GetFromJsonAsync<List<Supplier>>(_apiUrl);
+                list = await _client.GetFromJsonAsync<List<Supplier>>("/api/Suppliers");
             }
             catch (Exception ex)
             {
@@ -59,11 +57,10 @@ namespace Order_Management_Blazor_Server.Data
             Supplier supplier = null;
             try
             {
-                // HTTP Client use without injection
                 //var response = await _client.GetAsync(_apiUrl);
                 //string responseString = await response.Content.ReadAsStringAsync();
 
-                supplier = await _client.GetFromJsonAsync<Supplier>($"{_apiUrl}/{id}");
+                supplier = await _client.GetFromJsonAsync<Supplier>($"/api/Suppliers/{id}");
             }
             catch (Exception ex)
             {
@@ -74,48 +71,52 @@ namespace Order_Management_Blazor_Server.Data
 
         public async Task<Supplier> CreateSupplierAsync(Supplier supplier)
         {
-            HttpResponseMessage response = await _client.PostAsJsonAsync<Supplier>($"{_apiUrl}", supplier);
+            HttpResponseMessage response = await _client.PostAsJsonAsync<Supplier>("/api/Suppliers/", supplier);
             response.EnsureSuccessStatusCode();
 
-            // Deserialize the updated Supplier from the response body.
-            Supplier createdSupplier = null;
+            Supplier created = null;
             if (response.IsSuccessStatusCode)
             {
-                createdSupplier = JsonConvert.DeserializeObject<Supplier>(response.Content.ReadAsStringAsync().Result);
+                created = JsonConvert.DeserializeObject<Supplier>(response.Content.ReadAsStringAsync().Result);
             }
-            return createdSupplier;
+            return created;
         }
 
         public async Task<Supplier> UpdateSupplierAsync(Supplier supplier)
         {
-            HttpResponseMessage response = await _client.PutAsJsonAsync($"{_apiUrl}/{supplier.Id}", supplier);
+            HttpResponseMessage response = await _client.PutAsJsonAsync($"/api/Suppliers/{supplier.Id}", supplier);
             response.EnsureSuccessStatusCode();
 
-            // Deserialize the updated Supplier from the response body.
-            Supplier updateSupplier = null;
+            // Deserialize the updated product from the response body.
+            //supplier = await response.Content.ReadAsAsync<Supplier>();
+
             if (response.IsSuccessStatusCode)
             {
-                updateSupplier = JsonConvert.DeserializeObject<Supplier>(response.Content.ReadAsStringAsync().Result);
+                supplier = JsonConvert.DeserializeObject<Supplier>(response.Content.ReadAsStringAsync().Result);
             }
 
-            return updateSupplier;
+            return supplier;
         }
 
         public async Task<HttpStatusCode> DeleteSupplierAsync(int id)
         {
-            HttpResponseMessage response = await _client.DeleteAsync($"{_apiUrl}/{id}");
+            HttpResponseMessage response = await _client.DeleteAsync($"/api/Suppliers/{id}");
             return response.StatusCode;
         }
 
+        //public List<SelectListItem> States()
+        //{
+        //    List<SelectListItem> states = new List<SelectListItem>();
+        //    foreach (var state in NeededData.GetStates())
+        //    {
+        //        states.Add(new SelectListItem
+        //        {
+        //            Value = state,
+        //            Text = state
+        //        });
+        //    }
 
-
-        public List<string> GetStates()
-        {
-            return new List<string>()
-            {
-                "Available",
-                "Out of Stock"
-            };
-        }
+        //    return states;
+        //}
     }
 }
