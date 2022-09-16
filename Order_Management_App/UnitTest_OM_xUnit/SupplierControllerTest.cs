@@ -33,10 +33,10 @@ namespace UnitTest_OM_xUnit
             var controller = new SuppliersController(context);
 
             var suppliers = controller.Get().Result;
-            var id = suppliers.FirstOrDefault(s => s.SupplierName == "Supplier2").Id;
+            var id = suppliers.FirstOrDefault(s => s.SupplierName == "Supplier1").Id;
             var supplier = controller.Get(id).Result;
 
-            Assert.Equal("Supplier2", supplier.SupplierName);
+            Assert.Equal("Supplier1", supplier.SupplierName);
         }
 
         [Fact]
