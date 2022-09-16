@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order_Management_Blazor_Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{EB329732-9ACE-439C-A7E2-1E5CE7F9E8E1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest_Order_Management", "UnitTest_Order_Management\UnitTest_Order_Management.csproj", "{DDBFBF46-7820-46B2-94ED-AECDACC70C0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_OM_xUnit", "UnitTest_OM_xUnit\UnitTest_OM_xUnit.csproj", "{1EBB937F-3D24-449B-995C-136A4AB1C125}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{EB329732-9ACE-439C-A7E2-1E5CE7F9E8E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB329732-9ACE-439C-A7E2-1E5CE7F9E8E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB329732-9ACE-439C-A7E2-1E5CE7F9E8E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDBFBF46-7820-46B2-94ED-AECDACC70C0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDBFBF46-7820-46B2-94ED-AECDACC70C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDBFBF46-7820-46B2-94ED-AECDACC70C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDBFBF46-7820-46B2-94ED-AECDACC70C0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EBB937F-3D24-449B-995C-136A4AB1C125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EBB937F-3D24-449B-995C-136A4AB1C125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EBB937F-3D24-449B-995C-136A4AB1C125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EBB937F-3D24-449B-995C-136A4AB1C125}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
