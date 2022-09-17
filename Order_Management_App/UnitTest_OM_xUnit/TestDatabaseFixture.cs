@@ -23,32 +23,19 @@ namespace UnitTest_Order_Management
             {
                 if (!_databaseInitialized)
                 {
+                    #region In case of database recreation and direct data filling
                     using (var context = CreateContext())
                     {
-                        context.Database.EnsureDeleted();
-                        context.Database.EnsureCreated();
+                        // Ensure database created with migration
+                        context.Database.Migrate();
 
-                        context.AddRange(
-                            new Supplier
-                            {
-                                SupplierName = "Supplier1",
-                                AddressLine1 = "132 Ride str",
-                                AddressLine2 = "apt 3",
-                                City = "Yerevan",
-                                PostalCode = 111,
-                                State = "Available",
-                            },
-                            new Supplier
-                            {
-                                SupplierName = "Supplier2",
-                                AddressLine1 = "132 Ride str",
-                                AddressLine2 = "apt 3",
-                                City = "Yerevan",
-                                PostalCode = 111,
-                                State = "Available",
-                            });
+                        var existing = context.Suppliers.FirstOrDefault(s => s.SupplierName == "xUnitTest");
+                        if(existing != null)
+                            context.Remove(existing);
+
                         context.SaveChanges();
                     }
+                    #endregion
 
                     _databaseInitialized = true;
                 }

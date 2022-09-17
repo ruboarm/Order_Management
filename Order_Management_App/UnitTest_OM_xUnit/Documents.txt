@@ -1,0 +1,8 @@
+﻿Applied Custom Orderer as by default the order is different and in this concrete case
+need exact order to work, as we work exactly with 1 new model and at the end remove it
+from production Database.
+
+
+--------------------Documents----------------
+https://learn.microsoft.com/en-us/dotnet/core/testing/order-unit-tests?pivots=xunit
+https://hamidmosalla.com/2018/08/16/xunit-control-the-test-execution-order/ -- Alternativ document
